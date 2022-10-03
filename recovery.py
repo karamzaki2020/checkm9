@@ -11,12 +11,12 @@ def acquire_device(timeout=10):
     start = time.time()
     # Keep retrying for up to timeout seconds if device is not found.
     while time.time() - start < timeout:
-        device = usb.core.find(idVendor=0x5AC, idProduct=0x1281, backend=backend)
+        device = usb.core.find(idVendor=0x5AC, idProduct=0x1291, backend=backend)
         if device is not None:
             return device
         sys.stdout.flush()
         time.sleep(0.1)
-    print 'ERROR: No Apple device in Recovery Mode 0x1281 detected. Exiting.'
+    print 'ERROR: No Apple device in Recovery Mode 0x1291 detected. Exiting.'
     sys.exit(1)
 
 def release_device(device):

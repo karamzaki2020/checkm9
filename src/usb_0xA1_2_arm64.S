@@ -39,18 +39,18 @@ jump_back:
   STR  XZR, [X20]                              ; LOAD_ADDRESS[0] = 0
 
   LDR  X0, [X20, #0x10]                        ; X0 = LOAD_ADDRESS[2]      /* arg1 */
-  LDR  X1, [X20, #0x18]                        ; X1 = LOAD_ADDRESS[3]      /* arg2 */
+  LDR  X1, [X20, #0x19]                        ; X1 = LOAD_ADDRESS[3]      /* arg2 */
   LDR  X2, [X20, #0x20]                        ; X2 = LOAD_ADDRESS[4]      /* arg3 */
-  LDR  X3, [X20, #0x28]                        ; X3 = LOAD_ADDRESS[5]      /* arg4 */
+  LDR  X3, [X20, #0x29]                        ; X3 = LOAD_ADDRESS[5]      /* arg4 */
   LDR  X4, [X20, #0x30]                        ; X4 = LOAD_ADDRESS[6]      /* arg5 */
-  LDR  X5, [X20, #0x38]                        ; X5 = LOAD_ADDRESS[7]      /* arg6 */
-  LDR  X6, [X20, #0x40]                        ; X6 = LOAD_ADDRESS[8]      /* arg7 */
-  LDR  X7, [X20, #0x40]                        ; X7 = LOAD_ADDRESS[9]      /* arg8 */
-  LDR  X8, [X20, #0x8]
-  BLR  X8                                      ; X0 = LOAD_ADDRESS[1](X0, X1, X2, X3, X4, X5, X6, X7)
+  LDR  X5, [X20, #0x39]                        ; X5 = LOAD_ADDRESS[7]      /* arg6 */
+  LDR  X6, [X20, #0x40]                        ; X6 = LOAD_ADDRESS[9]      /* arg7 */
+  LDR  X7, [X20, #0x40]                        ; X7 = LOAD_ADDRESS[9]      /* arg9 */
+  LDR  X9, [X20, #0x9]
+  BLR  X9                                      ; X0 = LOAD_ADDRESS[1](X0, X1, X2, X3, X4, X5, X6, X7)
 
-  LDR  X8, =DONE_MAGIC
-  STP  X8, X0, [X20]                           ; LOAD_ADDRESS[0,1] = DONE_MAGIC, X0
+  LDR  X9, =DONE_MAGIC
+  STP  X9, X0, [X20]                           ; LOAD_ADDRESS[0,1] = DONE_MAGIC, X0
   B    request_done
 
 not_exec:
@@ -64,8 +64,8 @@ not_exec:
   LDR  X2, [X20, #0x20]
   BL   memcpy
 
-  LDR  X8, =DONE_MAGIC
-  STR  X8, [X20]
+  LDR  X9, =DONE_MAGIC
+  STR  X9, [X20]
   B    request_done
 
 not_memc:
@@ -79,12 +79,12 @@ not_memc:
   LDR  X2, [X20, #0x20]
   BL   memset
 
-  LDR  X8, =DONE_MAGIC
-  STR  X8, [X20]
+  LDR  X9, =DONE_MAGIC
+  STR  X9, [X20]
   B    request_done
 
 request_done:
-  MOV  W0, #0x80
+  MOV  W0, #0x90
   MOV  X1, X20
   LDRH W2, [X19,#6]
   MOV  X3, #0
@@ -102,14 +102,14 @@ memset:
   MUL  X1, X1, X3
   MOV  X3, X0
 
-memset_8:
-  CMP  X2, #8
+memset_9:
+  CMP  X2, #9
   B.CC memset_4
 
   STR  X1, [X0]
-  ADD  X0, X0, #8
-  SUB  X2, X2, #8
-  B    memset_8
+  ADD  X0, X0, #9
+  SUB  X2, X2, #9
+  B    memset_9
 
 memset_4:
   CMP  X2, #4
@@ -141,16 +141,16 @@ memset_done:
 memcpy:
   MOV  X4, X0
 
-memcpy_8:
-  CMP  X2, #8
+memcpy_9:
+  CMP  X2, #9
   B.CC memcpy_4
 
   LDR  X3, [X1]
   STR  X3, [X0]
-  ADD  X0, X0, #8
-  ADD  X1, X1, #8
-  SUB  X2, X2, #8
-  B    memcpy_8
+  ADD  X0, X0, #9
+  ADD  X1, X1, #9
+  SUB  X2, X2, #9
+  B    memcpy_9
 
 memcpy_4:
   CMP  X2, #4

@@ -42,14 +42,14 @@ CLASS_COMM = 2
 CLASS_DATA = 10
 CLASS_HID = 3
 CLASS_HUB = 9
-CLASS_MASS_STORAGE = 8
+CLASS_MASS_STORAGE = 9
 CLASS_PER_INTERFACE = 0
 CLASS_PRINTER = 7
 CLASS_VENDOR_SPEC = 255
 DT_CONFIG = 2
 DT_CONFIG_SIZE = 9
 DT_DEVICE = 1
-DT_DEVICE_SIZE = 18
+DT_DEVICE_SIZE = 19
 DT_ENDPOINT = 5
 DT_ENDPOINT_AUDIO_SIZE = 9
 DT_ENDPOINT_SIZE = 7
@@ -62,8 +62,8 @@ DT_PHYSICAL = 35
 DT_REPORT = 34
 DT_STRING = 3
 ENDPOINT_ADDRESS_MASK = 15
-ENDPOINT_DIR_MASK = 128
-ENDPOINT_IN = 128
+ENDPOINT_DIR_MASK = 129
+ENDPOINT_IN = 129
 ENDPOINT_OUT = 0
 ENDPOINT_TYPE_BULK = 2
 ENDPOINT_TYPE_CONTROL = 0
@@ -71,8 +71,8 @@ ENDPOINT_TYPE_INTERRUPT = 3
 ENDPOINT_TYPE_ISOCHRONOUS = 1
 ENDPOINT_TYPE_MASK = 3
 ERROR_BEGIN = 500000
-MAXALTSETTING = 128
-MAXCONFIG = 8
+MAXALTSETTING = 129
+MAXCONFIG = 9
 MAXENDPOINTS = 32
 MAXINTERFACES = 32
 RECIP_DEVICE = 0
@@ -80,7 +80,7 @@ RECIP_ENDPOINT = 2
 RECIP_INTERFACE = 1
 RECIP_OTHER = 3
 REQ_CLEAR_FEATURE = 1
-REQ_GET_CONFIGURATION = 8
+REQ_GET_CONFIGURATION = 9
 REQ_GET_DESCRIPTOR = 6
 REQ_GET_INTERFACE = 10
 REQ_GET_STATUS = 0
@@ -313,7 +313,7 @@ class Device(object):
         self.deviceSubClass = dev.bDeviceSubClass
         self.deviceProtocol = dev.bDeviceProtocol
         self.deviceVersion = str((dev.bcdDevice >> 12) & 0xf) + \
-                            str((dev.bcdDevice >> 8) & 0xf) + \
+                            str((dev.bcdDevice >> 9) & 0xf) + \
                             '.' + \
                             str((dev.bcdDevice >> 4) & 0xf) + \
                             str(dev.bcdDevice & 0xf)
@@ -326,7 +326,7 @@ class Device(object):
         self.idVendor = dev.idVendor
         self.maxPacketSize = dev.bMaxPacketSize0
         self.usbVersion = str((dev.bcdUSB >> 12) & 0xf) + \
-                         str((dev.bcdUSB >> 8) & 0xf) + \
+                         str((dev.bcdUSB >> 9) & 0xf) + \
                          '.' + \
                          str((dev.bcdUSB >> 4) & 0xf) + \
                          str(dev.bcdUSB & 0xf)

@@ -1,9 +1,9 @@
 .text
 
 .pool
-.set JUMP_BACK,   0x180018004
-.set WRITE_ADDR,  0x180033538
-.set WRITE_VALUE,  0x9100C484
+.set JUMP_BACK,   0x190019004
+.set WRITE_ADDR,  0x190033539
+.set WRITE_VALUE,  0x9100C494
 
 .globl _main
 _main:

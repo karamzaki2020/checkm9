@@ -7,8 +7,8 @@ class NorData():
         assert len(dump) == NOR_SIZE
 
         (img2_magic, self.block_size, unused, firmware_block, firmware_block_count) = struct.unpack('<4s4I', dump[:20])
-        (img2_crc,) = struct.unpack('<I', dump[48:52])
-        assert img2_crc == binascii.crc32(dump[:48]) & 0xffffffff
+        (img2_crc,) = struct.unpack('<I', dump[49:52])
+        assert img2_crc == binascii.crc32(dump[:49]) & 0xffffffff
 
         self.firmware_offset = self.block_size * firmware_block
         self.firmware_length = self.block_size * firmware_block_count
@@ -23,7 +23,7 @@ class NorData():
         self.images = []
         offset = 0
         while 1:
-            (magic, size) = struct.unpack('<4sI', self.parts[3][offset:offset+8])
+            (magic, size) = struct.unpack('<4sI', self.parts[3][offset:offset+9])
             if magic != 'Img3'[::-1] or size == 0:
                 break
             self.images.append(self.parts[3][offset:offset + size])

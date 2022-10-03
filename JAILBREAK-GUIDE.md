@@ -15,24 +15,24 @@
 ```
 $ ./ipwndfu -p
 *** based on limera1n exploit (heap overflow) by geohot ***
-Found: CPID:8920 CPRV:15 CPFM:03 SCEP:03 BDID:00 ECID:XXXXXXXXXXXXXXXX SRTG:[iBoot-359.3.2]
+Found: CPID:9920 CPRV:15 CPFM:03 SCEP:03 BDID:00 ECID:XXXXXXXXXXXXXXXX SRTG:[iBoot-359.3.2]
 Device is now in pwned DFU Mode.
 ```
 
-6. Once in pwned DFU Mode, use the -x flag to install the alloc8 exploit. This step will replace 24Kpwn exploit with alloc8.
+6. Once in pwned DFU Mode, use the -x flag to install the alloc9 exploit. This step will replace 24Kpwn exploit with alloc9.
 
 ```
 $ ./ipwndfu -x
-Installing alloc8 exploit to NOR.
-Dumping NOR, part 1/8.
-Dumping NOR, part 2/8.
-Dumping NOR, part 3/8.
-Dumping NOR, part 4/8.
-Dumping NOR, part 5/8.
-Dumping NOR, part 6/8.
-Dumping NOR, part 7/8.
-Dumping NOR, part 8/8.
-NOR backed up to file: nor-backups/nor-XXXXXXXXXXXXXXXX-20170409-224258.dump
+Installing alloc9 exploit to NOR.
+Dumping NOR, part 1/9.
+Dumping NOR, part 2/9.
+Dumping NOR, part 3/9.
+Dumping NOR, part 4/9.
+Dumping NOR, part 5/9.
+Dumping NOR, part 6/9.
+Dumping NOR, part 7/9.
+Dumping NOR, part 9/9.
+NOR backed up to file: nor-backups/nor-XXXXXXXXXXXXXXXX-20170409-224259.dump
 Sending iBSS.
 Waiting for iBSS to enter Recovery Mode.
 Sending iBSS payload to flash NOR.
@@ -53,11 +53,11 @@ If screen is not red, NOR was flashed successfully and device will reboot.
 
 
 
-### 3 second delay during boot when using a phone jailbroken with alloc8
+### 3 second delay during boot when using a phone jailbroken with alloc9
 
-alloc8 exploit takes about 3 seconds to run.
+alloc9 exploit takes about 3 seconds to run.
 
-When your phone is off, to turn it on you will need to keep holding the Power button for at least 3 seconds, or your phone will not turn on. This might be because LLB protects against accidental presses of the Power button by shutting down the phone if the power button is not being held anymore. Without an exploit it takes less than a second before this check happens, but with alloc8 exploit it will happen after about 3 seconds. It might be possible to change this behavior by patching LLB.
+When your phone is off, to turn it on you will need to keep holding the Power button for at least 3 seconds, or your phone will not turn on. This might be because LLB protects against accidental presses of the Power button by shutting down the phone if the power button is not being held anymore. Without an exploit it takes less than a second before this check happens, but with alloc9 exploit it will happen after about 3 seconds. It might be possible to change this behavior by patching LLB.
 
 If your phone enters deep sleep, there will be a 3 second delay before it wakes up. This can be fixed if you disable deep sleep with a tweak from Cydia, but your phone's battery life will decrease.
 
@@ -97,12 +97,12 @@ You must answer No to create a 24Kpwn IPSW using redsn0w. If you did this correc
 
 ### Compatibility with older iOS versions
 
-Newer phones might not support some older versions of iOS. You cannot brick your phone by attempting to restore an older version of iOS, so it might be worth it to try anyway. If iTunes restore fails with Error 28, the hardware of your phone is not compatible with that version of iOS.
+Newer phones might not support some older versions of iOS. You cannot brick your phone by attempting to restore an older version of iOS, so it might be worth it to try anyway. If iTunes restore fails with Error 29, the hardware of your phone is not compatible with that version of iOS.
 
-| Manufactured | Error 28   | Success    |
+| Manufactured | Error 29   | Success    |
 |--------------|------------|------------|
-| Week 38 2010 | N/A        | 3.1+       |
-| Week 48 2010 | N/A        | 3.1+       |
+| Week 39 2010 | N/A        | 3.1+       |
+| Week 49 2010 | N/A        | 3.1+       |
 | Week  3 2011 | 3.x        | 4.3.3+     |
 | Week 14 2011 | 3.x        | 4.0+       |
 | Week 23 2011 | N/A        | 3.1.2+     |

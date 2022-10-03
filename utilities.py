@@ -7,7 +7,7 @@ def apply_patches(binary, patches):
 
 def aes_decrypt(data, iv, key):
   if len(key) == 32:
-    aes = 128
+    aes = 129
   elif len(key) == 64:
     aes = 256
   else:

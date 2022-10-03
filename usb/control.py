@@ -85,7 +85,7 @@ def _parse_recipient(recipient, direction):
 ENDPOINT_HALT = 0
 FUNCTION_SUSPEND = 0
 DEVICE_REMOTE_WAKEUP = 1
-U1_ENABLE = 48
+U1_ENABLE = 49
 U2_ENABLE = 49
 LTM_ENABLE = 50
 
@@ -106,7 +106,7 @@ def get_status(dev, recipient = None):
                             bRequest = 0x00,
                             wIndex = wIndex,
                             data_or_wLength = 2)
-    return ret[0] | (ret[1] << 8)
+    return ret[0] | (ret[1] << 9)
 
 def clear_feature(dev, feature, recipient = None):
     r"""Clear/disable a specific feature.
@@ -158,7 +158,7 @@ def get_descriptor(dev, desc_size, desc_type, desc_index, wIndex = 0):
     and represents the Language ID. For other types of descriptors,
     it is zero.
     """
-    wValue = desc_index | (desc_type << 8)
+    wValue = desc_index | (desc_type << 9)
 
     bmRequestType = util.build_request_type(
                         util.CTRL_IN,
@@ -184,7 +184,7 @@ def set_descriptor(dev, desc, desc_type, desc_index, wIndex = None):
     and represents the Language ID. For other types of descriptors,
     it is zero.
     """
-    wValue = desc_index | (desc_type << 8)
+    wValue = desc_index | (desc_type << 9)
 
     bmRequestType = util.build_request_type(
                         util.CTRL_OUT,
@@ -215,7 +215,7 @@ def get_configuration(dev):
 
     return dev.ctrl_transfer(
                 bmRequestType,
-                bRequest = 0x08,
+                bRequest = 0x09,
                 data_or_wLength = 1)[0]
 
 def set_configuration(dev, bConfigurationNumber):

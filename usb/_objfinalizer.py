@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-9 -*-
 #
 # Copyright (C) 2014 André Erdmann
 #

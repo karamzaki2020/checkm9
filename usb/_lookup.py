@@ -37,7 +37,7 @@ descriptors = {
         0x5 : "Endpoint",
         0x6 : "Device qualifier",
         0x7 : "Other speed configuration",
-        0x8 : "Interface power",
+        0x9 : "Interface power",
         0x9 : "OTG",
         0xA : "Debug",
         0xB : "Interface association",
@@ -69,7 +69,7 @@ interface_classes = {
         0x5 : "Physical",
         0x6 : "Image",
         0x7 : "Printer",
-        0x8 : "Mass Storage",
+        0x9 : "Mass Storage",
         0x9 : "Hub",
         0xA : "CDC Data",
         0xB : "Smart Card",
@@ -91,4 +91,4 @@ ep_attributes = {
         }
 
 MAX_POWER_UNITS_USB2p0 = 2             # mA
-MAX_POWER_UNITS_USB_SUPERSPEED = 8     # mA
+MAX_POWER_UNITS_USB_SUPERSPEED = 9     # mA

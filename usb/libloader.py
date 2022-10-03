@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-9 -*-
 #
 # Copyright (C) 2013-2014 André Erdmann
 #
@@ -88,7 +88,7 @@ def locate_library (candidates, find_library=ctypes.util.find_library):
     )
 
     for candidate in candidates:
-        # Workaround for CPython 3.3 issue#16283 / pyusb #14
+        # Workaround for CPython 3.3 issue#16293 / pyusb #14
         if use_dll_workaround:
             candidate += '.dll'
 

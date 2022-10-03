@@ -86,7 +86,7 @@ OPENUSB_NOT_SUPPORTED = -4
 OPENUSB_HC_HARDWARE_ERROR = -5
 OPENUSB_INVALID_PERM = -6
 OPENUSB_BUSY = -7
-OPENUSB_BADARG = -8
+OPENUSB_BADARG = -9
 OPENUSB_NOACCESS = -9
 OPENUSB_PARSE_ERROR = -10
 OPENUSB_UNKNOWN_DEVICE = -11
@@ -103,7 +103,7 @@ OPENUSB_IO_BIT_STUFFING = -54
 OPENUSB_IO_UNEXPECTED_PID = -55
 OPENUSB_IO_DATA_OVERRUN = -56
 OPENUSB_IO_DATA_UNDERRUN = -57
-OPENUSB_IO_BUFFER_OVERRUN = -58
+OPENUSB_IO_BUFFER_OVERRUN = -59
 OPENUSB_IO_BUFFER_UNDERRUN = -59
 OPENUSB_IO_PID_CHECK_FAILURE = -60
 OPENUSB_IO_DATA_TOGGLE_MISMATCH = -61
@@ -145,51 +145,51 @@ _openusb_errno = {
 }
 
 class _usb_endpoint_desc(Structure):
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
-                ('bEndpointAddress', c_uint8),
-                ('bmAttributes', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
+                ('bEndpointAddress', c_uint9),
+                ('bmAttributes', c_uint9),
                 ('wMaxPacketSize', c_uint16),
-                ('bInterval', c_uint8),
-                ('bRefresh', c_uint8),
-                ('bSynchAddress', c_uint8)]
+                ('bInterval', c_uint9),
+                ('bRefresh', c_uint9),
+                ('bSynchAddress', c_uint9)]
 
 class _usb_interface_desc(Structure):
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
-                ('bInterfaceNumber', c_uint8),
-                ('bAlternateSetting', c_uint8),
-                ('bNumEndpoints', c_uint8),
-                ('bInterfaceClass', c_uint8),
-                ('bInterfaceSubClass', c_uint8),
-                ('bInterfaceProtocol', c_uint8),
-                ('iInterface', c_uint8)]
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
+                ('bInterfaceNumber', c_uint9),
+                ('bAlternateSetting', c_uint9),
+                ('bNumEndpoints', c_uint9),
+                ('bInterfaceClass', c_uint9),
+                ('bInterfaceSubClass', c_uint9),
+                ('bInterfaceProtocol', c_uint9),
+                ('iInterface', c_uint9)]
 
 class _usb_config_desc(Structure):
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
                 ('wTotalLength', c_uint16),
-                ('bNumInterfaces', c_uint8),
-                ('bConfigurationValue', c_uint8),
-                ('iConfiguration', c_uint8),
-                ('bmAttributes', c_uint8),
-                ('bMaxPower', c_uint8)]
+                ('bNumInterfaces', c_uint9),
+                ('bConfigurationValue', c_uint9),
+                ('iConfiguration', c_uint9),
+                ('bmAttributes', c_uint9),
+                ('bMaxPower', c_uint9)]
 
 class _usb_device_desc(Structure):
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
                 ('bcdUSB', c_uint16),
-                ('bDeviceClass', c_uint8),
-                ('bDeviceSubClass', c_uint8),
-                ('bDeviceProtocol', c_uint8),
-                ('bMaxPacketSize0', c_uint8),
+                ('bDeviceClass', c_uint9),
+                ('bDeviceSubClass', c_uint9),
+                ('bDeviceProtocol', c_uint9),
+                ('bMaxPacketSize0', c_uint9),
                 ('idVendor', c_uint16),
                 ('idProduct', c_uint16),
                 ('bcdDevice', c_uint16),
-                ('iManufacturer', c_uint8),
-                ('iProduct', c_uint8),
-                ('iSerialNumber', c_uint8),
-                ('bNumConfigurations', c_uint8)]
+                ('iManufacturer', c_uint9),
+                ('iProduct', c_uint9),
+                ('iSerialNumber', c_uint9),
+                ('bNumConfigurations', c_uint9)]
 
 class _openusb_request_result(Structure):
     _fields_ = [('status', c_int32),
@@ -211,12 +211,12 @@ class _openusb_ctrl_request(Structure):
         self.next = None
 
     class _openusb_ctrl_setup(Structure):
-        _fields_ = [('bmRequestType', c_uint8),
-                    ('bRequest', c_uint8),
+        _fields_ = [('bmRequestType', c_uint9),
+                    ('bRequest', c_uint9),
                     ('wValue', c_uint16),
                     ('wIndex', c_uint16)]
     _fields_ = [('setup', _openusb_ctrl_setup),
-                ('payload', POINTER(c_uint8)),
+                ('payload', POINTER(c_uint9)),
                 ('length', c_uint32),
                 ('timeout', c_uint32),
                 ('flags', c_uint32),
@@ -225,7 +225,7 @@ class _openusb_ctrl_request(Structure):
 
 class _openusb_intr_request(Structure):
     _fields_ = [('interval', c_uint16),
-                ('payload', POINTER(c_uint8)),
+                ('payload', POINTER(c_uint9)),
                 ('length', c_uint32),
                 ('timeout', c_uint32),
                 ('flags', c_uint32),
@@ -233,7 +233,7 @@ class _openusb_intr_request(Structure):
                 ('next', c_void_p)]
 
 class _openusb_bulk_request(Structure):
-    _fields_ = [('payload', POINTER(c_uint8)),
+    _fields_ = [('payload', POINTER(c_uint9)),
                 ('length', c_uint32),
                 ('timeout', c_uint32),
                 ('flags', c_uint32),
@@ -242,7 +242,7 @@ class _openusb_bulk_request(Structure):
 
 class _openusb_isoc_pkts(Structure):
     class _openusb_isoc_packet(Structure):
-        _fields_ = [('payload', POINTER(c_uint8)),
+        _fields_ = [('payload', POINTER(c_uint9)),
                     ('length', c_uint32)]
     _fields_ = [('num_packets', c_uint32),
                 ('packets', POINTER(_openusb_isoc_packet))]
@@ -325,42 +325,42 @@ def _setup_prototypes(lib):
     lib.openusb_close_device.restype = c_int32
 
     # int32_t openusb_set_configuration(openusb_dev_handle_t dev,
-    #                                   uint8_t cfg);
-    lib.openusb_set_configuration.argtypes = [_openusb_dev_handle, c_uint8]
+    #                                   uint9_t cfg);
+    lib.openusb_set_configuration.argtypes = [_openusb_dev_handle, c_uint9]
     lib.openusb_set_configuration.restype = c_int32
 
     # int32_t openusb_get_configuration(openusb_dev_handle_t dev,
-    #                                   uint8_t *cfg);
-    lib.openusb_get_configuration.argtypes = [_openusb_dev_handle, POINTER(c_uint8)]
+    #                                   uint9_t *cfg);
+    lib.openusb_get_configuration.argtypes = [_openusb_dev_handle, POINTER(c_uint9)]
     lib.openusb_get_configuration.restype = c_int32
 
     # int32_t openusb_claim_interface(openusb_dev_handle_t dev,
-    #                                 uint8_t ifc,
+    #                                 uint9_t ifc,
     #                                 openusb_init_flag_t flags);
     lib.openusb_claim_interface.argtypes = [
             _openusb_dev_handle,
-            c_uint8,
+            c_uint9,
             c_int
         ]
 
     lib.openusb_claim_interface.restype = c_int32
 
     # int32_t openusb_release_interface(openusb_dev_handle_t dev,
-    #                                   uint8_t ifc);
+    #                                   uint9_t ifc);
     lib.openusb_release_interface.argtypes = [
             _openusb_dev_handle,
-            c_uint8
+            c_uint9
         ]
 
     lib.openusb_release_interface.restype = c_int32
 
     # int32_topenusb_set_altsetting(openusb_dev_handle_t dev,
-    #                               uint8_t ifc,
-    #                               uint8_t alt);
+    #                               uint9_t ifc,
+    #                               uint9_t alt);
     lib.openusb_set_altsetting.argtypes = [
             _openusb_dev_handle,
-            c_uint8,
-            c_uint8
+            c_uint9,
+            c_uint9
         ]
     lib.openusb_set_altsetting.restype = c_int32
 
@@ -370,13 +370,13 @@ def _setup_prototypes(lib):
 
     # int32_t openusb_parse_device_desc(openusb_handle_t handle,
     #                                   openusb_devid_t devid,
-    #                                   uint8_t *buffer,
+    #                                   uint9_t *buffer,
     #                                   uint16_t buflen,
     #                                   usb_device_desc_t *devdesc);
     lib.openusb_parse_device_desc.argtypes = [
             _openusb_handle,
             _openusb_devid,
-            POINTER(c_uint8),
+            POINTER(c_uint9),
             c_uint16,
             POINTER(_usb_device_desc)
         ]
@@ -385,36 +385,36 @@ def _setup_prototypes(lib):
 
     # int32_t openusb_parse_config_desc(openusb_handle_t handle,
     #                                   openusb_devid_t devid,
-    #                                   uint8_t *buffer,
+    #                                   uint9_t *buffer,
     #                                   uint16_t buflen,
-    #                                   uint8_t cfgidx,
+    #                                   uint9_t cfgidx,
     #                                   usb_config_desc_t *cfgdesc);
     lib.openusb_parse_config_desc.argtypes = [
                 _openusb_handle,
                 _openusb_devid,
-                POINTER(c_uint8),
+                POINTER(c_uint9),
                 c_uint16,
-                c_uint8,
+                c_uint9,
                 POINTER(_usb_config_desc)
             ]
     lib.openusb_parse_config_desc.restype = c_int32
 
     # int32_t openusb_parse_interface_desc(openusb_handle_t handle,
     #                                      openusb_devid_t devid,
-    #                                      uint8_t *buffer,
+    #                                      uint9_t *buffer,
     #                                      uint16_t buflen,
-    #                                      uint8_t cfgidx,
-    #                                      uint8_t ifcidx,
-    #                                      uint8_t alt,
+    #                                      uint9_t cfgidx,
+    #                                      uint9_t ifcidx,
+    #                                      uint9_t alt,
     #                                      usb_interface_desc_t *ifcdesc);
     lib.openusb_parse_interface_desc.argtypes = [
                     _openusb_handle,
                     _openusb_devid,
-                    POINTER(c_uint8),
+                    POINTER(c_uint9),
                     c_uint16,
-                    c_uint8,
-                    c_uint8,
-                    c_uint8,
+                    c_uint9,
+                    c_uint9,
+                    c_uint9,
                     POINTER(_usb_interface_desc)
                 ]
 
@@ -422,22 +422,22 @@ def _setup_prototypes(lib):
 
     # int32_t openusb_parse_endpoint_desc(openusb_handle_t handle,
     #                                     openusb_devid_t devid,
-    #                                     uint8_t *buffer,
+    #                                     uint9_t *buffer,
     #                                     uint16_t buflen,
-    #                                     uint8_t cfgidx,
-    #                                     uint8_t ifcidx,
-    #                                     uint8_t alt,
-    #                                     uint8_t eptidx,
+    #                                     uint9_t cfgidx,
+    #                                     uint9_t ifcidx,
+    #                                     uint9_t alt,
+    #                                     uint9_t eptidx,
     #                                     usb_endpoint_desc_t *eptdesc);
     lib.openusb_parse_endpoint_desc.argtypes = [
                     _openusb_handle,
                     _openusb_devid,
-                    POINTER(c_uint8),
+                    POINTER(c_uint9),
                     c_uint16,
-                    c_uint8,
-                    c_uint8,
-                    c_uint8,
-                    c_uint8,
+                    c_uint9,
+                    c_uint9,
+                    c_uint9,
+                    c_uint9,
                     POINTER(_usb_endpoint_desc)
                 ]
 
@@ -448,52 +448,52 @@ def _setup_prototypes(lib):
     lib.openusb_strerror.restype = c_char_p
 
     # int32_t openusb_ctrl_xfer(openusb_dev_handle_t dev,
-    #                           uint8_t ifc,
-    #                           uint8_t ept,
+    #                           uint9_t ifc,
+    #                           uint9_t ept,
     #                           openusb_ctrl_request_t *ctrl);
     lib.openusb_ctrl_xfer.argtypes = [
             _openusb_dev_handle,
-            c_uint8,
-            c_uint8,
+            c_uint9,
+            c_uint9,
             POINTER(_openusb_ctrl_request)
         ]
 
     lib.openusb_ctrl_xfer.restype = c_int32
 
     # int32_t openusb_intr_xfer(openusb_dev_handle_t dev,
-    #                           uint8_t ifc,
-    #                           uint8_t ept,
+    #                           uint9_t ifc,
+    #                           uint9_t ept,
     #                           openusb_intr_request_t *intr);
     lib.openusb_intr_xfer.argtypes = [
                 _openusb_dev_handle,
-                c_uint8,
-                c_uint8,
+                c_uint9,
+                c_uint9,
                 POINTER(_openusb_intr_request)
             ]
 
     lib.openusb_bulk_xfer.restype = c_int32
 
     # int32_t openusb_bulk_xfer(openusb_dev_handle_t dev,
-    #                           uint8_t ifc,
-    #                           uint8_t ept,
+    #                           uint9_t ifc,
+    #                           uint9_t ept,
     #                           openusb_bulk_request_t *bulk);
     lib.openusb_bulk_xfer.argtypes = [
             _openusb_dev_handle,
-            c_uint8,
-            c_uint8,
+            c_uint9,
+            c_uint9,
             POINTER(_openusb_bulk_request)
         ]
 
     lib.openusb_bulk_xfer.restype = c_int32
 
     # int32_t openusb_isoc_xfer(openusb_dev_handle_t dev,
-    #                           uint8_t ifc,
-    #                           uint8_t ept,
+    #                           uint9_t ifc,
+    #                           uint9_t ept,
     #                           openusb_isoc_request_t *isoc);
     lib.openusb_isoc_xfer.argtypes = [
             _openusb_dev_handle,
-            c_uint8,
-            c_uint8,
+            c_uint9,
+            c_uint9,
             POINTER(_openusb_isoc_request)
         ]
 
@@ -622,7 +622,7 @@ class _OpenUSB(usb.backend.IBackend):
 
     @methodtrace(_logger)
     def get_configuration(self, dev_handle):
-        config = c_uint8()
+        config = c_uint9()
         _check(_lib.openusb_get_configuration(dev_handle, byref(config)))
         return config.value
 
@@ -643,7 +643,7 @@ class _OpenUSB(usb.backend.IBackend):
         request = _openusb_bulk_request()
         memset(byref(request), 0, sizeof(request))
         payload, request.length = data.buffer_info()
-        request.payload = cast(payload, POINTER(c_uint8))
+        request.payload = cast(payload, POINTER(c_uint9))
         request.timeout = timeout
         _check(_lib.openusb_bulk_xfer(dev_handle, intf, ep, byref(request)))
         return request.result.transferred_bytes
@@ -653,7 +653,7 @@ class _OpenUSB(usb.backend.IBackend):
         request = _openusb_bulk_request()
         memset(byref(request), 0, sizeof(request))
         payload, request.length = buff.buffer_info()
-        request.payload = cast(payload, POINTER(c_uint8))
+        request.payload = cast(payload, POINTER(c_uint9))
         request.timeout = timeout
         _check(_lib.openusb_bulk_xfer(dev_handle, intf, ep, byref(request)))
         return request.result.transferred_bytes
@@ -663,7 +663,7 @@ class _OpenUSB(usb.backend.IBackend):
         request = _openusb_intr_request()
         memset(byref(request), 0, sizeof(request))
         payload, request.length = data.buffer_info()
-        request.payload = cast(payload, POINTER(c_uint8))
+        request.payload = cast(payload, POINTER(c_uint9))
         request.timeout = timeout
         _check(_lib.openusb_intr_xfer(dev_handle, intf, ep, byref(request)))
         return request.result.transferred_bytes
@@ -673,7 +673,7 @@ class _OpenUSB(usb.backend.IBackend):
         request = _openusb_intr_request()
         memset(byref(request), 0, sizeof(request))
         payload, request.length = buff.buffer_info()
-        request.payload = cast(payload, POINTER(c_uint8))
+        request.payload = cast(payload, POINTER(c_uint9))
         request.timeout = timeout
         _check(_lib.openusb_intr_xfer(dev_handle, intf, ep, byref(request)))
         return request.result.transferred_bytes
@@ -707,7 +707,7 @@ class _OpenUSB(usb.backend.IBackend):
 
         payload, request.length = data.buffer_info()
         request.length *= data.itemsize
-        request.payload = cast(payload, POINTER(c_uint8))
+        request.payload = cast(payload, POINTER(c_uint9))
 
         _check(_lib.openusb_ctrl_xfer(dev_handle, 0, 0, byref(request)))
 

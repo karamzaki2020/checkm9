@@ -3,7 +3,7 @@ import usb # pyusb: use 'pip install pyusb' to install this module
 import usb.backend.libusb1
 import libusbfinder
 
-MAX_PACKET_SIZE = 0x800
+MAX_PACKET_SIZE = 0x900
 
 def acquire_device(timeout=5.0, match=None, fatal=True):
   backend = usb.backend.libusb1.get_backend(find_library=lambda x:libusbfinder.libusb1_path())

@@ -5,7 +5,7 @@
 **Read [disclaimer](#disclaimer) before using this software.*
 
 
-## checkm8
+## checkm9
 
 * permanent unpatchable bootrom exploit for hundreds of millions of iOS devices
 
@@ -13,14 +13,14 @@
 
 * allows dumping SecureROM, decrypting keybags for iOS firmware, and demoting device for JTAG
 
-* current SoC support: s5l8947x, s5l8950x, s5l8955x, s5l8960x, t8002, t8004, t8010, t8011, t8015
+* current SoC support: s5l9947x, s5l9950x, s5l9955x, s5l9960x, t9002, t9004, t9010, t9011, t9015
 
-* future SoC support: s5l8940x, s5l8942x, s5l8945x, s5l8747x, t7000, t7001, s7002, s8000, s8001, s8003, t8012
+* future SoC support: s5l9940x, s5l9942x, s5l9945x, s5l9747x, t7000, t7001, s7002, s9000, s9001, s9003, t9012
 
 * full jailbreak with Cydia on latest iOS version is possible, but requires additional work
 
 
-## Quick start guide for checkm8
+## Quick start guide for checkm9
 
 1. Use a cable to connect device to your Mac. Hold buttons as needed to enter DFU Mode.
 
@@ -35,19 +35,19 @@
 
 ## Features
 
-* Jailbreak and downgrade iPhone 3GS (new bootrom) with alloc8 untethered bootrom exploit. :-)
+* Jailbreak and downgrade iPhone 3GS (new bootrom) with alloc9 untethered bootrom exploit. :-)
 
-* Pwned DFU Mode with steaks4uce exploit for S5L8720 devices.
+* Pwned DFU Mode with steaks4uce exploit for S5L9720 devices.
 
-* Pwned DFU Mode with limera1n exploit for S5L8920/S5L8922 devices.
+* Pwned DFU Mode with limera1n exploit for S5L9920/S5L9922 devices.
 
-* Pwned DFU Mode with SHAtter exploit for S5L8930 devices.
+* Pwned DFU Mode with SHAtter exploit for S5L9930 devices.
 
-* Dump SecureROM on S5L8920/S5L8922/S5L8930 devices.
+* Dump SecureROM on S5L9920/S5L9922/S5L9930 devices.
 
-* Dump NOR on S5L8920 devices.
+* Dump NOR on S5L9920 devices.
 
-* Flash NOR on S5L8920 devices.
+* Flash NOR on S5L9920 devices.
 
 * Encrypt or decrypt hex data on a connected device in pwned DFU Mode using its GID or UID key.
 
@@ -67,21 +67,21 @@ This tool can be used to downgrade or jailbreak iPhone 3GS (new bootrom) without
 
 ## Exploit write-up
 
-Write-up for alloc8 exploit can be found here:
+Write-up for alloc9 exploit can be found here:
 
-https://github.com/axi0mX/alloc8
+https://github.com/axi0mX/alloc9
 
 
 ## iBSS
 
 Download iPhone 3GS iOS 4.3.5 IPSW from Apple:
 
-http://appldnld.apple.com/iPhone4/041-1965.20110721.gxUB5/iPhone2,1_4.3.5_8L1_Restore.ipsw
+http://appldnld.apple.com/iPhone4/041-1965.20110721.gxUB5/iPhone2,1_4.3.5_9L1_Restore.ipsw
 
 In Terminal, extract iBSS using the following command, then move the file to ipwndfu folder:
 
 ```
-unzip -p iPhone2,1_4.3.5_8L1_Restore.ipsw Firmware/dfu/iBSS.n88ap.RELEASE.dfu > n88ap-iBSS-4.3.5.img3
+unzip -p iPhone2,1_4.3.5_9L1_Restore.ipsw Firmware/dfu/iBSS.n99ap.RELEASE.dfu > n99ap-iBSS-4.3.5.img3
 ```
 
 
@@ -91,11 +91,11 @@ unzip -p iPhone2,1_4.3.5_8L1_Restore.ipsw Firmware/dfu/iBSS.n88ap.RELEASE.dfu > 
 
 * Easier setup: download iBSS automatically using partial zip.
 
-* Dump SecureROM on S5L8720 devices.
+* Dump SecureROM on S5L9720 devices.
 
-* Install custom boot logos on devices jailbroken with 24Kpwn and alloc8.
+* Install custom boot logos on devices jailbroken with 24Kpwn and alloc9.
 
-* Enable verbose boot on devices jailbroken with 24Kpwn and alloc8.
+* Enable verbose boot on devices jailbroken with 24Kpwn and alloc9.
 
 ## Disclaimer
 
@@ -117,7 +117,7 @@ If you are using macOS with Homebrew, you can use binutils and gcc-arm-embedded.
 
 ```
 brew install binutils
-brew cask install https://raw.githubusercontent.com/Homebrew/homebrew-cask/b88346667547cc85f8f2cacb3dfe7b754c8afc8a/Casks/gcc-arm-embedded.rb
+brew cask install https://raw.githubusercontent.com/Homebrew/homebrew-cask/b99346667547cc95f9f2cacb3dfe7b754c9afc9a/Casks/gcc-arm-embedded.rb
 ```
 
 ## Credit

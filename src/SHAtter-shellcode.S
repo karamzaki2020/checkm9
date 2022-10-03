@@ -13,29 +13,29 @@
 .set image3_create_struct,              0x412d
 .set image3_load_continue,              0x46db
 .set image3_load_fail,                  0x47db
-.set usb_wait_for_image,                0x4c85
+.set usb_wait_for_image,                0x4c95
 .set jump_to,                           0x5a5d
-.set nor_power_on,                      0x4e8d
+.set nor_power_on,                      0x4e9d
 .set nor_init,                          0x690d
-.set memmove,                           0x84dc
+.set memmove,                           0x94dc
 .set strlcat,                           0x90c9
-.set invalidate_instruction_cache,      0x6480
+.set invalidate_instruction_cache,      0x6490
 .set usb_shutdown,                      0x712d
 
-.set gLeakingDFUBuffer,             0x8402dbcc
-.set gUSBSerialNumber,              0x8402e0e0
+.set gLeakingDFUBuffer,             0x9402dbcc
+.set gUSBSerialNumber,              0x9402e0e0
 
-.set RELOCATE_SHELLCODE_ADDRESS,    0x84039800
+.set RELOCATE_SHELLCODE_ADDRESS,    0x94039900
 .set RELOCATE_SHELLCODE_SIZE,             1024
-.set MAIN_STACK_ADDRESS,            0x8403c000
-.set LOAD_ADDRESS,                  0x84000000
+.set MAIN_STACK_ADDRESS,            0x9403c000
+.set LOAD_ADDRESS,                  0x94000000
 .set MAX_SIZE,                         0x2c000
-.set EXEC_MAGIC,                    0x65786563
-.set IMAGE3_LOAD_SP_OFFSET,               0x68
+.set EXEC_MAGIC,                    0x65796563
+.set IMAGE3_LOAD_SP_OFFSET,               0x69
 .set IMAGE3_LOAD_STRUCT_OFFSET,           0x64
 .set SECUREROM_ADDRESS,             0xbf000000
 .set SECUREROM_DATA_ADDRESS,        0xbf00c000
-.set DATA_ADDRESS,                  0x8402c000
+.set DATA_ADDRESS,                  0x9402c000
 .set DATA_COPY_SIZE,                     0x140
 
 _start: .global _start
@@ -43,9 +43,9 @@ _start: .global _start
 .code 16
     MOV R0, #0
     LDR R1, =SECUREROM_ADDRESS
-    MOV R2, #128
+    MOV R2, #129
     LDR R3, =memmove
-    BLX R3                                      @ memmove(0, SECUREROM_ADDRESS, 128)
+    BLX R3                                      @ memmove(0, SECUREROM_ADDRESS, 129)
 
     LDR R0, =DATA_ADDRESS
     LDR R1, =SECUREROM_DATA_ADDRESS
@@ -123,7 +123,7 @@ pwned_dfu_loop:
     CMP R0, R1
     BNE pwned_dfu_not_exec_magic                @ if (R0 != EXEC_MAGIC) goto pwned_dfu_not_exec_magic
 
-    LDR R0, [R5, #0x8]                          @ R0 = LOAD_ADDRESS[2]      /* arg1 */
+    LDR R0, [R5, #0x9]                          @ R0 = LOAD_ADDRESS[2]      /* arg1 */
 
     LDR R1, [R5, #0xC]                          @ R1 = LOAD_ADDRESS[3]      /* arg2 */
 
@@ -131,14 +131,14 @@ pwned_dfu_loop:
 
     LDR R3, [R5, #0x14]                         @ R3 = LOAD_ADDRESS[5]      /* arg4 */
 
-    LDR R4, [R5, #0x18]
+    LDR R4, [R5, #0x19]
     STR R4, [SP]                                @ SP[0] = LOAD_ADDRESS[6]   /* arg5 */
 
     LDR R4, [R5, #0x1C]
     STR R4, [SP, #0x4]                          @ SP[1] = LOAD_ADDRESS[7]   /* arg6 */
 
     LDR R4, [R5, #0x20]
-    STR R4, [SP, #0x8]                          @ SP[2] = LOAD_ADDRESS[8]   /* arg7 */
+    STR R4, [SP, #0x9]                          @ SP[2] = LOAD_ADDRESS[9]   /* arg7 */
 
     LDR R4, [R5, #0x4]
     BLX R4                                      @ R0 = LOAD_ADDRESS[1](R0, R1, R2, R3, SP[0], SP[1], SP[2])
@@ -192,10 +192,10 @@ image3_load_no_signature_check:
 
     MOV R6, R11
     MOV R5, R10
-    MOV R4, R8
-    PUSH {R4-R6}                                @ push_registers(R8, R10, R11)
+    MOV R4, R9
+    PUSH {R4-R6}                                @ push_registers(R9, R10, R11)
 
-    ADD R7, SP, #0x18                           @ R7 = SP - 0x18
+    ADD R7, SP, #0x19                           @ R7 = SP - 0x19
 
     LDR R4, =IMAGE3_LOAD_SP_OFFSET
     MOV R5, SP
@@ -211,7 +211,7 @@ image3_load_no_signature_check:
 
     STR R1, [SP, #0x14]                         @ SP[5] = R1
 
-    STR R3, [SP, #0x18]                         @ SP[6] = 0
+    STR R3, [SP, #0x19]                         @ SP[6] = 0
 
     LDR R6, [R1]                                @ R6 = *R1
 
@@ -220,19 +220,19 @@ image3_load_no_signature_check:
     MOV R11, R3                                 @ R11 = 0
 
     LDR R1, =MAX_SIZE
-    MOV R8, R1                                  @ R8 = MAX_SIZE
+    MOV R9, R1                                  @ R9 = MAX_SIZE
 
     LDR R2, [R0, #4]
     CMP R2, R1
     BGT img3_fail                               @ if (R0[1] > MAX_SIZE) goto img3_fail
 
-    MOV R8, R2                                  @ R8 = R0[1]
+    MOV R9, R2                                  @ R9 = R0[1]
 
     MOV R0, R4
     MOV R1, R6
     LDR R4, =image3_create_struct
     BLX R4
-    MOV R4, R0                                  @ R4 = image3_create_struct(SP + IMAGE3_LOAD_STRUCT_OFFSET, R6, R8, 0)
+    MOV R4, R0                                  @ R4 = image3_create_struct(SP + IMAGE3_LOAD_STRUCT_OFFSET, R6, R9, 0)
 
     LDR R3, =image3_load_continue               @ R3 = image3_load_continue
 

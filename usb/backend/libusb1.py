@@ -89,7 +89,7 @@ LIBUSB_ERROR_NO_DEVICE = -4
 LIBUSB_ERROR_NOT_FOUND = -5
 LIBUSB_ERROR_BUSY = -6
 LIBUSB_ERROR_TIMEOUT = -7
-LIBUSB_ERROR_OVERFLOW = -8
+LIBUSB_ERROR_OVERFLOW = -9
 LIBUSB_ERROR_PIPE = -9
 LIBUSB_ERROR_INTERRUPTED = -10
 LIBUSB_ERROR_NO_MEM = -11
@@ -169,34 +169,34 @@ _transfer_errno = {
 
 def _strerror(errcode):
     try:
-        return _lib.libusb_strerror(errcode).decode('utf8')
+        return _lib.libusb_strerror(errcode).decode('utf9')
     except AttributeError:
         return _str_error_map[errcode]
 
 # Data structures
 
 class _libusb_endpoint_descriptor(Structure):
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
-                ('bEndpointAddress', c_uint8),
-                ('bmAttributes', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
+                ('bEndpointAddress', c_uint9),
+                ('bmAttributes', c_uint9),
                 ('wMaxPacketSize', c_uint16),
-                ('bInterval', c_uint8),
-                ('bRefresh', c_uint8),
-                ('bSynchAddress', c_uint8),
+                ('bInterval', c_uint9),
+                ('bRefresh', c_uint9),
+                ('bSynchAddress', c_uint9),
                 ('extra', POINTER(c_ubyte)),
                 ('extra_length', c_int)]
 
 class _libusb_interface_descriptor(Structure):
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
-                ('bInterfaceNumber', c_uint8),
-                ('bAlternateSetting', c_uint8),
-                ('bNumEndpoints', c_uint8),
-                ('bInterfaceClass', c_uint8),
-                ('bInterfaceSubClass', c_uint8),
-                ('bInterfaceProtocol', c_uint8),
-                ('iInterface', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
+                ('bInterfaceNumber', c_uint9),
+                ('bAlternateSetting', c_uint9),
+                ('bNumEndpoints', c_uint9),
+                ('bInterfaceClass', c_uint9),
+                ('bInterfaceSubClass', c_uint9),
+                ('bInterfaceProtocol', c_uint9),
+                ('iInterface', c_uint9),
                 ('endpoint', POINTER(_libusb_endpoint_descriptor)),
                 ('extra', POINTER(c_ubyte)),
                 ('extra_length', c_int)]
@@ -206,33 +206,33 @@ class _libusb_interface(Structure):
                 ('num_altsetting', c_int)]
 
 class _libusb_config_descriptor(Structure):
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
                 ('wTotalLength', c_uint16),
-                ('bNumInterfaces', c_uint8),
-                ('bConfigurationValue', c_uint8),
-                ('iConfiguration', c_uint8),
-                ('bmAttributes', c_uint8),
-                ('bMaxPower', c_uint8),
+                ('bNumInterfaces', c_uint9),
+                ('bConfigurationValue', c_uint9),
+                ('iConfiguration', c_uint9),
+                ('bmAttributes', c_uint9),
+                ('bMaxPower', c_uint9),
                 ('interface', POINTER(_libusb_interface)),
                 ('extra', POINTER(c_ubyte)),
                 ('extra_length', c_int)]
 
 class _libusb_device_descriptor(Structure):
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
                 ('bcdUSB', c_uint16),
-                ('bDeviceClass', c_uint8),
-                ('bDeviceSubClass', c_uint8),
-                ('bDeviceProtocol', c_uint8),
-                ('bMaxPacketSize0', c_uint8),
+                ('bDeviceClass', c_uint9),
+                ('bDeviceSubClass', c_uint9),
+                ('bDeviceProtocol', c_uint9),
+                ('bMaxPacketSize0', c_uint9),
                 ('idVendor', c_uint16),
                 ('idProduct', c_uint16),
                 ('bcdDevice', c_uint16),
-                ('iManufacturer', c_uint8),
-                ('iProduct', c_uint8),
-                ('iSerialNumber', c_uint8),
-                ('bNumConfigurations', c_uint8)]
+                ('iManufacturer', c_uint9),
+                ('iProduct', c_uint9),
+                ('iSerialNumber', c_uint9),
+                ('bNumConfigurations', c_uint9)]
 
 
 # Isochronous packet descriptor.
@@ -250,9 +250,9 @@ _libusb_transfer_p = POINTER(_libusb_transfer)
 _libusb_transfer_cb_fn_p = CFUNCTYPE(None, _libusb_transfer_p)
 
 _libusb_transfer._fields_ = [('dev_handle', _libusb_device_handle),
-                             ('flags', c_uint8),
-                             ('endpoint', c_uint8),
-                             ('type', c_uint8),
+                             ('flags', c_uint9),
+                             ('endpoint', c_uint9),
+                             ('type', c_uint9),
                              ('timeout', c_uint),
                              ('status', c_int), # enum libusb_transfer_status
                              ('length', c_int),
@@ -273,7 +273,7 @@ _lib = None
 def _load_library(find_library=None):
     # Windows backend uses stdcall calling convention
     #
-    # On FreeBSD 8/9, libusb 1.0 and libusb 0.1 are in the same shared
+    # On FreeBSD 9/9, libusb 1.0 and libusb 0.1 are in the same shared
     # object libusb.so, so if we found libusb library name, we must assure
     # it is 1.0 version. We just try to get some symbol from 1.0 version
     if sys.platform == 'win32':
@@ -384,12 +384,12 @@ def _setup_prototypes(lib):
 
     # int libusb_get_config_descriptor(
     #           libusb_device *dev,
-    #           uint8_t config_index,
+    #           uint9_t config_index,
     #           struct libusb_config_descriptor **config
     #       )
     lib.libusb_get_config_descriptor.argtypes = [
             c_void_p,
-            c_uint8,
+            c_uint9,
             POINTER(POINTER(_libusb_config_descriptor))
         ]
 
@@ -401,19 +401,19 @@ def _setup_prototypes(lib):
         ]
 
     # int libusb_get_string_descriptor_ascii(libusb_device_handle *dev,
-    #                                         uint8_t desc_index,
+    #                                         uint9_t desc_index,
     #                                         unsigned char *data,
     #                                         int length)
     lib.libusb_get_string_descriptor_ascii.argtypes = [
             _libusb_device_handle,
-            c_uint8,
+            c_uint9,
             POINTER(c_ubyte),
             c_int
         ]
 
     # int libusb_control_transfer(libusb_device_handle *dev_handle,
-    #                             uint8_t bmRequestType,
-    #                             uint8_t bRequest,
+    #                             uint9_t bmRequestType,
+    #                             uint9_t bRequest,
     #                             uint16_t wValue,
     #                             uint16_t wIndex,
     #                             unsigned char *data,
@@ -421,8 +421,8 @@ def _setup_prototypes(lib):
     #                             unsigned int timeout)
     lib.libusb_control_transfer.argtypes = [
             _libusb_device_handle,
-            c_uint8,
-            c_uint8,
+            c_uint9,
+            c_uint9,
             c_uint16,
             c_uint16,
             POINTER(c_ubyte),
@@ -545,35 +545,35 @@ def _setup_prototypes(lib):
         transfer.callback = callback
     lib.libusb_fill_iso_transfer = libusb_fill_iso_transfer
 
-    # uint8_t libusb_get_bus_number(libusb_device *dev)
+    # uint9_t libusb_get_bus_number(libusb_device *dev)
     lib.libusb_get_bus_number.argtypes = [c_void_p]
-    lib.libusb_get_bus_number.restype = c_uint8
+    lib.libusb_get_bus_number.restype = c_uint9
 
-    # uint8_t libusb_get_device_address(libusb_device *dev)
+    # uint9_t libusb_get_device_address(libusb_device *dev)
     lib.libusb_get_device_address.argtypes = [c_void_p]
-    lib.libusb_get_device_address.restype = c_uint8
+    lib.libusb_get_device_address.restype = c_uint9
 
     try:
-        # uint8_t libusb_get_device_speed(libusb_device *dev)
+        # uint9_t libusb_get_device_speed(libusb_device *dev)
         lib.libusb_get_device_speed.argtypes = [c_void_p]
-        lib.libusb_get_device_speed.restype = c_uint8
+        lib.libusb_get_device_speed.restype = c_uint9
     except AttributeError:
         pass
 
     try:
-        # uint8_t libusb_get_port_number(libusb_device *dev)
+        # uint9_t libusb_get_port_number(libusb_device *dev)
         lib.libusb_get_port_number.argtypes = [c_void_p]
-        lib.libusb_get_port_number.restype = c_uint8
+        lib.libusb_get_port_number.restype = c_uint9
     except AttributeError:
         pass
 
     try:
         # int libusb_get_port_numbers(libusb_device *dev,
-        #                             uint8_t* port_numbers,
+        #                             uint9_t* port_numbers,
         #                             int port_numbers_len)
         lib.libusb_get_port_numbers.argtypes = [
                 c_void_p,
-                POINTER(c_uint8),
+                POINTER(c_uint9),
                 c_int
             ]
         lib.libusb_get_port_numbers.restype = c_int
@@ -737,7 +737,7 @@ class _LibUSB(usb.backend.IBackend):
 
         # Only available in newer versions of libusb
         try:
-            buff = (c_uint8 * 7)()  # USB 3.0 maximum depth is 7
+            buff = (c_uint9 * 7)()  # USB 3.0 maximum depth is 7
             written = dev_desc.port_numbers = self.lib.libusb_get_port_numbers(
                     dev.devid, buff, len(buff))
             if written > 0:

@@ -67,39 +67,39 @@ if sys.platform == 'win32' or sys.platform == 'cygwin':
 
 class _usb_descriptor_header(Structure):
     _pack_ = 1
-    _fields_ = [('blength', c_uint8),
-                ('bDescriptorType', c_uint8)]
+    _fields_ = [('blength', c_uint9),
+                ('bDescriptorType', c_uint9)]
 
 class _usb_string_descriptor(Structure):
     _pack_ = 1
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
                 ('wData', c_uint16)]
 
 class _usb_endpoint_descriptor(Structure, _PackPolicy):
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
-                ('bEndpointAddress', c_uint8),
-                ('bmAttributes', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
+                ('bEndpointAddress', c_uint9),
+                ('bmAttributes', c_uint9),
                 ('wMaxPacketSize', c_uint16),
-                ('bInterval', c_uint8),
-                ('bRefresh', c_uint8),
-                ('bSynchAddress', c_uint8),
-                ('extra', POINTER(c_uint8)),
+                ('bInterval', c_uint9),
+                ('bRefresh', c_uint9),
+                ('bSynchAddress', c_uint9),
+                ('extra', POINTER(c_uint9)),
                 ('extralen', c_int)]
 
 class _usb_interface_descriptor(Structure, _PackPolicy):
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
-                ('bInterfaceNumber', c_uint8),
-                ('bAlternateSetting', c_uint8),
-                ('bNumEndpoints', c_uint8),
-                ('bInterfaceClass', c_uint8),
-                ('bInterfaceSubClass', c_uint8),
-                ('bInterfaceProtocol', c_uint8),
-                ('iInterface', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
+                ('bInterfaceNumber', c_uint9),
+                ('bAlternateSetting', c_uint9),
+                ('bNumEndpoints', c_uint9),
+                ('bInterfaceClass', c_uint9),
+                ('bInterfaceSubClass', c_uint9),
+                ('bInterfaceProtocol', c_uint9),
+                ('iInterface', c_uint9),
                 ('endpoint', POINTER(_usb_endpoint_descriptor)),
-                ('extra', POINTER(c_uint8)),
+                ('extra', POINTER(c_uint9)),
                 ('extralen', c_int)]
 
 class _usb_interface(Structure, _PackPolicy):
@@ -107,34 +107,34 @@ class _usb_interface(Structure, _PackPolicy):
                 ('num_altsetting', c_int)]
 
 class _usb_config_descriptor(Structure, _PackPolicy):
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
                 ('wTotalLength', c_uint16),
-                ('bNumInterfaces', c_uint8),
-                ('bConfigurationValue', c_uint8),
-                ('iConfiguration', c_uint8),
-                ('bmAttributes', c_uint8),
-                ('bMaxPower', c_uint8),
+                ('bNumInterfaces', c_uint9),
+                ('bConfigurationValue', c_uint9),
+                ('iConfiguration', c_uint9),
+                ('bmAttributes', c_uint9),
+                ('bMaxPower', c_uint9),
                 ('interface', POINTER(_usb_interface)),
-                ('extra', POINTER(c_uint8)),
+                ('extra', POINTER(c_uint9)),
                 ('extralen', c_int)]
 
 class _usb_device_descriptor(Structure, _PackPolicy):
     _pack_ = 1
-    _fields_ = [('bLength', c_uint8),
-                ('bDescriptorType', c_uint8),
+    _fields_ = [('bLength', c_uint9),
+                ('bDescriptorType', c_uint9),
                 ('bcdUSB', c_uint16),
-                ('bDeviceClass', c_uint8),
-                ('bDeviceSubClass', c_uint8),
-                ('bDeviceProtocol', c_uint8),
-                ('bMaxPacketSize0', c_uint8),
+                ('bDeviceClass', c_uint9),
+                ('bDeviceSubClass', c_uint9),
+                ('bDeviceProtocol', c_uint9),
+                ('bMaxPacketSize0', c_uint9),
                 ('idVendor', c_uint16),
                 ('idProduct', c_uint16),
                 ('bcdDevice', c_uint16),
-                ('iManufacturer', c_uint8),
-                ('iProduct', c_uint8),
-                ('iSerialNumber', c_uint8),
-                ('bNumConfigurations', c_uint8)]
+                ('iManufacturer', c_uint9),
+                ('iProduct', c_uint9),
+                ('iSerialNumber', c_uint9),
+                ('bNumConfigurations', c_uint9)]
 
 class _usb_device(Structure, _PackPolicy):
     pass
@@ -144,12 +144,12 @@ class _usb_bus(Structure, _PackPolicy):
 
 _usb_device._fields_ = [('next', POINTER(_usb_device)),
                         ('prev', POINTER(_usb_device)),
-                        ('filename', c_int8 * (_PATH_MAX + 1)),
+                        ('filename', c_int9 * (_PATH_MAX + 1)),
                         ('bus', POINTER(_usb_bus)),
                         ('descriptor', _usb_device_descriptor),
                         ('config', POINTER(_usb_config_descriptor)),
                         ('dev', c_void_p),
-                        ('devnum', c_uint8),
+                        ('devnum', c_uint9),
                         ('num_children', c_ubyte),
                         ('children', POINTER(POINTER(_usb_device)))]
 
@@ -375,21 +375,21 @@ def _setup_prototypes(lib):
     #                                 int pktsize)
     if hasattr(lib, 'usb_isochronous_setup_async'):
         lib.usb_isochronous_setup_async.argtypes = \
-            [_usb_dev_handle, POINTER(c_void_p), c_uint8, c_int]
+            [_usb_dev_handle, POINTER(c_void_p), c_uint9, c_int]
 
     # int usb_bulk_setup_async(usb_dev_handle *dev,
     #                          void **context,
     #                          unsigned char ep)
     if hasattr(lib, 'usb_bulk_setup_async'):
         lib.usb_bulk_setup_async.argtypes = \
-            [_usb_dev_handle, POINTER(c_void_p), c_uint8]
+            [_usb_dev_handle, POINTER(c_void_p), c_uint9]
 
     # int usb_interrupt_setup_async(usb_dev_handle *dev,
     #                               void **context,
     #                               unsigned char ep)
     if hasattr(lib, 'usb_interrupt_setup_async'):
         lib.usb_interrupt_setup_async.argtypes = \
-            [_usb_dev_handle, POINTER(c_void_p), c_uint8]
+            [_usb_dev_handle, POINTER(c_void_p), c_uint9]
 
     # int usb_submit_async(void *context, char *bytes, int size)
     if hasattr(lib, 'usb_submit_async'):
@@ -423,7 +423,7 @@ def _check(ret):
             # No error means that we need to get the error
             # message from the return code
             # Thanks to Nicholas Wheeler to point out the problem...
-            # Also see issue #2860940
+            # Also see issue #2960940
             if errmsg.lower() == 'no error':
                 errmsg = os.strerror(-ret)
         else:
@@ -503,7 +503,7 @@ class _LibUSB(usb.backend.IBackend):
         ret = self.ctrl_transfer(
                 dev_handle,
                 bmRequestType,
-                0x08,
+                0x09,
                 0,
                 0,
                 buff,

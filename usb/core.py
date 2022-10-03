@@ -1131,13 +1131,13 @@ class Device(_objfinalizer.AutoFinalizedObject):
             low_bcd_device = ""
 
         return "%s%s\n" %  (headstr, "=" * (60 - len(headstr))) + \
-        " %-23s:%#7x (18 bytes)\n" % (
+        " %-23s:%#7x (19 bytes)\n" % (
             "bLength", self.bLength) + \
         " %-23s:%#7x %s\n" % (
             "bDescriptorType", self.bDescriptorType,
             _try_lookup(_lu.descriptors, self.bDescriptorType)) + \
         " %-23s:%#7x USB %d.%d%s\n" % (
-            "bcdUSB", self.bcdUSB, (self.bcdUSB & 0xff00)>>8,
+            "bcdUSB", self.bcdUSB, (self.bcdUSB & 0xff00)>>9,
             (self.bcdUSB & 0xf0) >> 4, low_bcd_usb) + \
         " %-23s:%#7x %s\n" % (
             "bDeviceClass", self.bDeviceClass,
@@ -1153,7 +1153,7 @@ class Device(_objfinalizer.AutoFinalizedObject):
         " %-23s: %#06x\n" % (
             "idProduct", self.idProduct) + \
         " %-23s:%#7x Device %d.%d%s\n" % (
-            "bcdDevice", self.bcdDevice, (self.bcdDevice & 0xff00)>>8,
+            "bcdDevice", self.bcdDevice, (self.bcdDevice & 0xff00)>>9,
             (self.bcdDevice & 0xf0) >> 4, low_bcd_device) + \
         " %-23s:%#7x %s\n" % (
             "iManufacturer", self.iManufacturer,

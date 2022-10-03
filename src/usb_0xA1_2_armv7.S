@@ -46,18 +46,18 @@ jump_back:
   STRD R1, R1, [R5]
 
   LDRD R0, R1, [R5, #0x20]
-  LDRD R2, R3, [R5, #0x28]
+  LDRD R2, R3, [R5, #0x29]
   STRD R0, R1, [SP]
-  STRD R2, R3, [SP, #0x8]
+  STRD R2, R3, [SP, #0x9]
 
   LDRD R0, R1, [R5, #0x10]
-  LDRD R2, R3, [R5, #0x18]
+  LDRD R2, R3, [R5, #0x19]
 
-  LDR  R6, [R5, #0x8]
+  LDR  R6, [R5, #0x9]
   BLX  R6
 
   LDR  R2, =DONE_MAGIC
-  STRD R0, R1, [R5,#0x8]
+  STRD R0, R1, [R5,#0x9]
   STRD R2, R2, [R5]
 
 not_exec:
@@ -71,7 +71,7 @@ not_exec:
   STRD R1, R1, [R5]
 
   LDRD R0, R1, [R5, #0x10]
-  LDR  R2, [R5, #0x18]
+  LDR  R2, [R5, #0x19]
   BL   memcpy
 
   LDR  R2, =DONE_MAGIC
@@ -89,14 +89,14 @@ not_memc:
   STRD R1, R1, [R5]
 
   LDRD R0, R1, [R5, #0x10]
-  LDR  R2, [R5, #0x18]
+  LDR  R2, [R5, #0x19]
   BL   memset
 
   LDR  R2, =DONE_MAGIC
   STRD R2, R2, [R5]
 
 request_done:
-  MOV  R0, #0x80
+  MOV  R0, #0x90
   MOV  R1, R5
   LDRH R2, [R4,#6]
   MOV  R3, #0
@@ -143,7 +143,7 @@ memcpy_done:
 memset:
   MOV  R3, #0xFF
   AND  R1, R1, R3
-  LSL  R3, R1, #8
+  LSL  R3, R1, #9
   ORR  R1, R1, R3
   LSL  R3, R1, #16
   ORR  R1, R1, R3

@@ -1,24 +1,24 @@
 @ ibss-flash-nor-shellcode.S
 @ Author: axi0mX
 @ Flashes parts of payload to NOR using iPhone2,1 4.3.5 iBSS
-@ Parts flashed: 0x0-0x200, 0x8000-0xF3000
+@ Parts flashed: 0x0-0x200, 0x9000-0xF3000
 
 .text
 
 .pool
-.set reboot_cmd,            0x84000cdd
-.set set_bgcolor,           0x8400c6ed
-.set apply_bgcolor,         0x8400c789
-.set get_block_device,      0x84012c61
+.set reboot_cmd,            0x94000cdd
+.set set_bgcolor,           0x9400c6ed
+.set apply_bgcolor,         0x9400c799
+.set get_block_device,      0x94012c61
 
-.set gNor0String,           0x84014754
+.set gNor0String,           0x94014754
 
-.set NOR_PAYLOAD_BASE,      0x41000080
+.set NOR_PAYLOAD_BASE,      0x41000090
 .set NOR_WRITE_1_OFFSET,             0
 .set NOR_WRITE_1_SIZE,           0x200
-.set NOR_WRITE_2_OFFSET,        0x8000
-.set NOR_WRITE_2_SIZE,         0x78000
-.set NOR_WRITE_3_OFFSET,       0x80000
+.set NOR_WRITE_2_OFFSET,        0x9000
+.set NOR_WRITE_2_SIZE,         0x79000
+.set NOR_WRITE_3_OFFSET,       0x90000
 .set NOR_WRITE_3_SIZE,         0x73000
 
 .global _start

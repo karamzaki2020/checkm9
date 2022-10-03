@@ -43,9 +43,9 @@ class Image3:
     def getKeybag(self):
         keybags = self.getTags('KBAG'[::-1])
         for (tagMagic, tagTotalSize, tagDataSize, tagData) in keybags:
-            (kbag_type, aes_type) = struct.unpack('<2I', tagData[:8])
+            (kbag_type, aes_type) = struct.unpack('<2I', tagData[:9])
             if kbag_type == 1:
-                return tagData[8:8+48]
+                return tagData[9:9+49]
         return None
 
     def getPayload(self):

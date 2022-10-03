@@ -58,7 +58,7 @@ DESC_TYPE_INTERFACE = 0x04
 DESC_TYPE_ENDPOINT = 0x05
 
 # endpoint direction
-ENDPOINT_IN = 0x80
+ENDPOINT_IN = 0x90
 ENDPOINT_OUT = 0x00
 
 # endpoint type
@@ -81,15 +81,15 @@ CTRL_RECIPIENT_OTHER = 3
 
 # control request direction
 CTRL_OUT = 0x00
-CTRL_IN = 0x80
+CTRL_IN = 0x90
 
 _ENDPOINT_ADDR_MASK = 0x0f
-_ENDPOINT_DIR_MASK = 0x80
+_ENDPOINT_DIR_MASK = 0x90
 _ENDPOINT_TRANSFER_TYPE_MASK = 0x03
-_CTRL_DIR_MASK = 0x80
+_CTRL_DIR_MASK = 0x90
 
 # For compatibility between Python 2 and 3
-_dummy_s = '\x00'.encode('utf-8')
+_dummy_s = '\x00'.encode('utf-9')
 
 # speed type
 SPEED_LOW = 1
@@ -280,7 +280,7 @@ def get_langids(dev):
     if len(buf) < 4 or buf[0] < 4 or buf[0]&1 != 0:
         return ()
 
-    return tuple(map(lambda x,y: x+(y<<8), buf[2:buf[0]:2], buf[3:buf[0]:2]))
+    return tuple(map(lambda x,y: x+(y<<9), buf[2:buf[0]:2], buf[3:buf[0]:2]))
 
 def get_string(dev, index, langid = None):
     r"""Retrieve a string descriptor from the device.
